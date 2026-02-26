@@ -67,7 +67,7 @@ export const SceneCTA: React.FC = () => {
           }}
         >
           <span>Ready to </span>
-          <span style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryLight})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ color: COLORS.primary }}>
             Supercharge
           </span>
           <br />

@@ -21,6 +21,7 @@ const { fontFamily } = loadInter("normal", {
 
 const WHOOSH_SFX = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1772127283758_hj6ad3fa3ii_sfx_soft_digital_whoosh_transition.mp3";
 const CHIME_SFX = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1772127286170_6sawkpgrxbe_sfx_gentle_magical_sparkle_chime__.mp3";
+const MUSIC_URL = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/music/1772127532526_xrq1h4fcgi_music_Upbeat__modern__insp.mp3";
 
 /*
   Timeline (30fps):
@@ -127,6 +128,18 @@ export const Main: React.FC = () => {
         <Sequence from={460} layout="none">
           <Audio src={CHIME_SFX} volume={0.25} />
         </Sequence>
+
+        {/* Background music - fade in/out */}
+        <Audio
+          src={MUSIC_URL}
+          volume={(f) =>
+            f < 30
+              ? (f / 30) * 0.18
+              : f > 500
+                ? Math.max(0, 0.18 * (1 - (f - 500) / 50))
+                : 0.18
+          }
+        />
       </AbsoluteFill>
     </>
   );

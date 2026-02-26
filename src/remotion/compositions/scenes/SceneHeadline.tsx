@@ -62,7 +62,7 @@ export const SceneHeadline: React.FC = () => {
         >
           <span>Create, Launch &amp; Sell</span>
           <br />
-          <span style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryLight})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ color: COLORS.primary }}>
             Digital Products
           </span>
         </WaveText>
