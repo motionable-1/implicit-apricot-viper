@@ -1,55 +1,132 @@
-import { AbsoluteFill, Artifact, useCurrentFrame, useVideoConfig } from "remotion";
-import { loadFont } from "@remotion/google-fonts/SpaceMono";
+import { AbsoluteFill, Artifact, useCurrentFrame, Sequence } from "remotion";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { Audio } from "@remotion/media";
+import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 
-const LoaderDots = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+import { blurDissolve } from "../library/components/layout/transitions/presentations/blurDissolve";
+import { Noise } from "../library/components/effects/Noise";
 
-  const dot = (index: number) => {
-    const phase = (frame / fps) * 2 * Math.PI + index * 0.8;
-    return 0.35 + Math.max(0, Math.sin(phase)) * 0.65;
-  };
+import { Background } from "./scenes/Background";
+import { SceneIntro } from "./scenes/SceneIntro";
+import { SceneHeadline } from "./scenes/SceneHeadline";
+import { SceneDashboard } from "./scenes/SceneDashboard";
+import { SceneSteps } from "./scenes/SceneSteps";
+import { SceneCTA } from "./scenes/SceneCTA";
 
-  return (
-    <span className="inline-flex gap-1">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="inline-block text-sky-300"
-          style={{ opacity: dot(i) }}
-        >
-          .
-        </span>
-      ))}
-    </span>
-  );
-};
+const { fontFamily } = loadInter("normal", {
+  weights: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
+
+const WHOOSH_SFX = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1772127283758_hj6ad3fa3ii_sfx_soft_digital_whoosh_transition.mp3";
+const CHIME_SFX = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/sfx/1772127286170_6sawkpgrxbe_sfx_gentle_magical_sparkle_chime__.mp3";
+
+/*
+  Timeline (30fps):
+  Scene 1 - Intro:      0-90    (3s)
+  Transition:           -20
+  Scene 2 - Headline:   90-210  (4s = 120fr)
+  Transition:           -20
+  Scene 3 - Dashboard:  210-360 (5s = 150fr)
+  Transition:           -20
+  Scene 4 - Steps:      360-510 (5s = 150fr)
+  Transition:           -20
+  Scene 5 - CTA:        510-630 (4s = 120fr)
+
+  Total = 90 + 120 + 150 + 150 + 120 - 20*4 = 550 frames
+*/
+
+const TRANSITION_DURATION = 20;
 
 export const Main: React.FC = () => {
-  const { fontFamily } = loadFont();
   const frame = useCurrentFrame();
+
   return (
     <>
-      {/* Leave this here to generate a thumbnail */}
       {frame === 0 && (
         <Artifact content={Artifact.Thumbnail} filename="thumbnail.jpeg" />
       )}
-      <AbsoluteFill className="flex items-center justify-center bg-[#0f1115]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.28),transparent_45%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.2),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:48px_48px] opacity-40" />
-        <div
-          className="flex flex-col items-center gap-4 text-center text-white drop-shadow-[0_12px_32px_rgba(0,0,0,0.55)]"
-          style={{ fontFamily, fontWeight: 700, letterSpacing: "0.01em" }}
-        >
-          <div className="text-4xl md:text-5xl font-bold">
-            <span className="font-extrabold text-sky-300">TypeFrames</span> is
-            building your video
-            <LoaderDots />
-          </div>
-          <div className="text-base md:text-lg text-white/70">
-            Rendering scenes, timing transitions, and polishing frames.
-          </div>
-        </div>
+
+      <AbsoluteFill style={{ fontFamily, fontWeight: 500 }}>
+        {/* Persistent animated background */}
+        <Background />
+
+        {/* Scene transitions */}
+        <TransitionSeries>
+          {/* Scene 1: Logo Intro */}
+          <TransitionSeries.Sequence durationInFrames={90}>
+            <SceneIntro />
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={blurDissolve()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 2: Headline & Value Prop */}
+          <TransitionSeries.Sequence durationInFrames={120}>
+            <SceneHeadline />
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={blurDissolve()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 3: Dashboard Showcase */}
+          <TransitionSeries.Sequence durationInFrames={150}>
+            <SceneDashboard />
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={blurDissolve()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 4: 3 Steps */}
+          <TransitionSeries.Sequence durationInFrames={150}>
+            <SceneSteps />
+          </TransitionSeries.Sequence>
+
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: TRANSITION_DURATION })}
+          />
+
+          {/* Scene 5: CTA */}
+          <TransitionSeries.Sequence durationInFrames={120}>
+            <SceneCTA />
+          </TransitionSeries.Sequence>
+        </TransitionSeries>
+
+        {/* Film grain overlay */}
+        <Noise type="subtle" intensity={0.25} speed={0.8} opacity={0.35} blend="overlay" />
+
+        {/* Sound effects synced to transitions */}
+        {/* Intro chime */}
+        <Sequence from={5} layout="none">
+          <Audio src={CHIME_SFX} volume={0.3} />
+        </Sequence>
+
+        {/* Transition whooshes */}
+        <Sequence from={80} layout="none">
+          <Audio src={WHOOSH_SFX} volume={0.2} />
+        </Sequence>
+        <Sequence from={190} layout="none">
+          <Audio src={WHOOSH_SFX} volume={0.2} />
+        </Sequence>
+        <Sequence from={330} layout="none">
+          <Audio src={WHOOSH_SFX} volume={0.2} />
+        </Sequence>
+        <Sequence from={430} layout="none">
+          <Audio src={WHOOSH_SFX} volume={0.15} />
+        </Sequence>
+
+        {/* CTA chime */}
+        <Sequence from={460} layout="none">
+          <Audio src={CHIME_SFX} volume={0.25} />
+        </Sequence>
       </AbsoluteFill>
     </>
   );

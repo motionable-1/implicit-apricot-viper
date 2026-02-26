@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, Easing, Img, spring } from "remotion";
-import { FadeInChars, FadeInWords } from "../../library/components/text/TextAnimation";
+import { FadeInWords } from "../../library/components/text/TextAnimation";
 import { ShapeAnimation } from "../../library/components/effects/ShapeAnimation";
 import { COLORS } from "./Background";
 
@@ -112,7 +112,6 @@ const StepCard: React.FC<StepCardProps> = ({ step, title, description, icon, del
 
 export const SceneSteps: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
   // Connector lines between steps
   const line1Width = interpolate(frame, [30, 55], [0, 100], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });

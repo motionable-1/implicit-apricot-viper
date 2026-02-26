@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, Easing, Img, spring } from "remotion";
-import { FadeInWords, WaveText } from "../../library/components/text/TextAnimation";
+import { WaveText } from "../../library/components/text/TextAnimation";
 import { COLORS } from "./Background";
 
 const ROCKET_ICON = "https://api.iconify.design/ph/rocket-launch-fill.svg?color=%23F56B3D&width=48";

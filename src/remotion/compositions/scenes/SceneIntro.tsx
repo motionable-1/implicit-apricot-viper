@@ -1,6 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, Img, interpolate, Easing, spring } from "remotion";
-import { FadeInWords, BlurReveal } from "../../library/components/text/TextAnimation";
-import { LogoReveal } from "../../library/components/effects/LogoReveal";
+import { BlurReveal } from "../../library/components/text/TextAnimation";
 import { Badge } from "../../library/components/effects/Badge";
 import { Glow } from "../../library/components/effects/Glow";
 import { COLORS } from "./Background";

@@ -2,8 +2,6 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, Easing, Img
 import { FadeInWords } from "../../library/components/text/TextAnimation";
 import { BrowserMockup } from "../../library/components/mockups/BrowserMockup";
 import { Counter } from "../../library/components/text/Counter";
-import { BarChart } from "../../library/components/effects/BarChart";
-import { Badge } from "../../library/components/effects/Badge";
 import { COLORS } from "./Background";
 
 const SCREENSHOT_URL = "https://pub-e3bfc0083b0644b296a7080b21024c5f.r2.dev/superlinks/1772127112690_nskvdj5zfxj_superlinks_screenshot.png";
@@ -11,9 +9,6 @@ const SPARKLE_ICON = "https://api.iconify.design/mdi/sparkles.svg?color=%23FAFAF
 
 // Dashboard card content
 const DashboardContent: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
   return (
     <div style={{ width: "100%", height: "100%", backgroundColor: COLORS.bg, padding: 24, position: "relative" }}>
       {/* Screenshot as the background dashboard */}
