@@ -62,7 +62,12 @@ export const SceneHeadline: React.FC = () => {
         >
           <span>Create, Launch &amp; Sell</span>
           <br />
-          <span style={{ color: COLORS.primary }}>
+          <span
+            style={{
+              color: "#FF8E5E",
+              textShadow: `0 0 25px ${COLORS.primary}90, 0 0 50px ${COLORS.primary}50, 0 2px 4px rgba(0,0,0,0.4)`,
+            }}
+          >
             Digital Products
           </span>
         </WaveText>

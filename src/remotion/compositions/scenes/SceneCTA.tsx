@@ -67,7 +67,12 @@ export const SceneCTA: React.FC = () => {
           }}
         >
           <span>Ready to </span>
-          <span style={{ color: COLORS.primary }}>
+          <span
+            style={{
+              color: "#FFFFFF",
+              textShadow: `0 0 30px ${COLORS.primary}, 0 0 60px ${COLORS.primary}80, 0 2px 4px rgba(0,0,0,0.5)`,
+            }}
+          >
             Supercharge
           </span>
           <br />
